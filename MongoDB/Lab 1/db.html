@@ -1,0 +1,61 @@
+<!-- Queries
+
+1.	Retrieve all documents in a collection
+
+db.orders.find()
+
+
+2.	Retrieve all documents in a collection limit 5 and not show first 3 documents
+
+db.orders.find().skip(3).limit(5)
+
+
+
+3.	Retrieve all documents that contain paid orders (the "paid" field is "Y")
+
+db.orders.find({paid: "Y"})
+
+
+
+4.	Retrieve all documents that contain paid orders and the orders is  2019
+db.orders.find({paid: "Y", year: 2019})
+
+
+
+5.	Retrieve all documents that contain unpaid orders or whose orders are from before 2019
+db.orders.find({$or: [{paid: "N"}, {year: {$lt: 2019}}]})
+
+
+6.	Retrieve all documents that contain orders whose price currency is in NOK
+
+db.orders.find({"cost.currency": "NOK"})
+
+
+
+7.	Retrieve all documents that contain orders whose price is  18 NOK
+db.orders.find({"cost.price": 18})
+
+
+8.	update all documents with orders that contain product "p2" and increament price 7 
+db.collectionName.update({ "items.product": "p2" }, { $inc: { "cost.price": 7 } }, { multi: true })
+
+
+9.	delete all documents with orders that contain products whose quantity is 4
+db.orders.remove({ "items.quantity": 4 })
+
+
+
+10.	Retrieve all documents with orders that contain products whose first colour (i.e., first element in the "colours" array) is blue
+
+
+
+
+
+
+db.orders.find({ "items.colours.0": "blue" })
+
+
+
+
+
+ -->

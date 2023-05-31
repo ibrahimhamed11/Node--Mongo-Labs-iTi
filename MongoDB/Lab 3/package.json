@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "mongoose": "^7.1.0",
+    "mongous": "^0.2.7"
+  },
+  "name": "lab3",
+  "version": "1.0.0",
+  "main": "node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

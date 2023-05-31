@@ -1,0 +1,81 @@
+Create University DB have 3 collections student,faculty and course 
+1.Create unique index on FacultyName on the Faculty collection.
+
+db.faculty.createIndex({ FacultyName: 1 },{unique: true})
+
+
+
+
+2.Implement relation between Student and Course, by adding array of Courses IDs in the student object.
+db.student.updateOne({ name: "Ahmed" }, { $set: {courses:["6455bd5f7d6a1138904701e4","6455bd6a7d6a1138904701e5"]}})
+
+
+
+
+•Select specific student with his name, and then display his courses.
+var name: db.student.find({ name: "Ahmed" })
+db.getCollection("course").findOne({_id:{$in:name.courses}})
+
+
+3.Implement relation between Student and faculty by adding the faculty object in the student using empeded doc.
+db.student.updateOne({name:"Ahmed"},{$set:{faculty:{name:"commerce"}}})
+
+
+•Select specific student with his name, and then display his faculty.
+db.student.findOne({name:"Ahmed"},{faculty:1})
+
+
+
+
+
+Use order DB from last day
+
+4.Retrieve the total number of delivery days, grouped by year; retrieve the results only after 2017 (Hint: use aggregation pipelines)
+db.getCollection("product").aggregate([{$match: {"year": {$gt: 2017}}},{$group: {_id: "$year", total_delivery_days: {$sum: "$delivery_days"}}}])
+
+
+
+
+
+5.Retrieve the total number of delivery days, grouped by year; retrieve the results only paid
+db.getCollection("product").aggregate([{$match: {"paid": "Y"}},{$group: {_id: "$year", total_delivery_days: {$sum: "$delivery_days"}}}])
+
+
+
+6.Retrieve the total number of price, grouped by currency
+db.getCollection("product").aggregate([{$group: {_id: "$cost.currency", total_price: {$sum: "$cost.price"}}}])
+
+
+
+7.Calc how many record have color black
+db.getCollection("product").aggregate([{$unwind: "$items"},{$match: {"items.colours": "black"}},{$group: {_id: null, count: {$sum: 1}}}])
+
+
+
+8.Retrieve total all price from year 2017 to 2018
+db.getCollection("product").aggregate([{$match: {"year": {$in: [2017, 2018]}}},{$group: {_id: null, total_price: {$sum: "$cost.price"}}}])
+
+
+
+
+9.How many product paid from 2018 to 2020?
+db.getCollection("product").aggregate([{$match: {"year": {$gt: 2018, $lt: 2020}, "paid": "Y"}},{$unwind: "$items"},{$group: {_id: null, total_products_paid: {$sum: "$items.quantity"}}}])
+
+
+
+10. How many product currency nok and price greater than 20?
+db.getCollection("product").aggregate([ {$unwind: "$items"},{$match: {"cost.currency": "NOK", "cost.price": {$gt: 20}}}, {$group: {_id: null, count: {$sum: "$items.quantity"}}}])
+
+
+
+
+11.what is average delivery in 2020
+db.getCollection("product").aggregate([{$match: {year: 2020}},{$group: {_id: null, avg_delivery_days: {$avg: "$delivery_days"}}}])
+
+
+
+
+12.what is average price when delivery less than 4
+db.getCollection("product").aggregate([{ $match: {delivery_days:{$lt: 4}}},
+
+
